@@ -15,7 +15,26 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from vemax.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-]
+
+    url(r'^init$', init_view),
+    url(r'^login$', login_view),
+    url(r'^register$', register_view),
+    url(r'^homepage$', homepage_view),
+
+    url(r'^information$', information_view),
+    url(r'^information_data$', information_data),
+    url(r'^relationship$', relationship_view),
+    url(r'^relationship_data$', relationship_data),
+
+    url(r'^classify$', classify_view),
+    url(r'^classify_data$', classify_data),
+    url(r'^classify_detail$', classify_detail_view),
+
+    url(r'^friend_analyse$', friend_analyse),
+
+    url(r'^search$', search_view)
+    ]

@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>登录</title>
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link rel="stylesheet" type="text/css" href="../static/css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/component.css" />
+		<link href='../static/css/googlefonts.css' rel='stylesheet' type='text/css'>
+	</head>
+<style>
+    
+	.large-header1 {
+
+	position:relative;	
+	z-index: 1;
+}
+
+	.center-container01 {
+
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	color: #f9f1e9;
+	text-align: center;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate3d(-50%,-50%,0);
+	transform: translate3d(-50%,-50%,0);
+
+	width: 450px;
+	height: 470px;
+	background: rgba(98,181,253,0);       //  0   0.15  0.18  0.2
+	position:relative;
+	z-index: 4;
+}
+	
+	.empty-place {
+	
+	margin-top: 0px;
+	position: relative;
+	height: 100px;
+
+}
+
+	.input-bar1 {
+	
+	margin-top: 0px;
+	position: relative;
+	height: 160px;
+	background: url(../static/image/login/input-bar1.png) 0 0 no-repeat;
+}
+
+	.input-bar2 {
+	margin-top: 0px;
+	position: relative;
+	height: 150px;
+	background: url(../static/image/login/input-bar2.png) 0 0 no-repeat;
+}
+
+	.button-place {
+	margin-top: 0px;
+	margin-left: 60px;
+	position: relative;
+	width: 330px;
+	height: 90px;
+}
+
+	.button-place1 {
+
+	position: relative;
+	float: left;
+		
+	width: 165px;
+	height: 90px;
+{#	//background: #555;#}
+
+	background: url(../static/image/login/sign-up1.png) 0 0 no-repeat;
+}
+
+	.button-place1:hover {
+
+	width: 165px;
+	height: 90px;
+	
+	background: url(../static/image/login/sign-up2.png) 0 0 no-repeat;
+}
+
+	.button-place2 {
+
+	position: relative;
+	float: left;
+		
+	width: 165px;
+	height: 90px;
+{#	//background: #999;#}
+	
+	background: url(../static/image/login/log-in1.png) 0 0 no-repeat;
+}
+
+	.button-place2:hover {
+
+	width: 165px;
+	height: 90px;
+	
+	background: url(../static/image/login/log-in2.png) 0 0 no-repeat;
+}
+
+
+
+
+.text1   {color:#ffffff; font-size:26.5px; background:transparent;
+           -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius:10px;
+	      margin-top: 42px; margin-left: 50px;   padding-left: 10px;  width:200px; 
+        border-top:none; border-left:none; border-right:none; border-bottom:none; }
+ 
+.text2   {color:#ffffff; font-size:28.5px;  background:transparent;
+           -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius:10px;
+	      margin-top: 24px; margin-left: 50px;   padding-left: 10px;  width:200px; 
+        border-top:none; border-left:none; border-right:none; border-bottom:none; }
+		
+
+.button0 {color:#d35f41;font-size:30px;background:transparent; 
+           -moz-border-radius: 1px; -webkit-border-radius: 1px; border-radius:1px;
+           width: 100%; height:100%; 
+          border-top:none; border-left:none; border-right:none; border-bottom:none; 
+          box-shadow: 0px 0px 0px rgba(0,0,0,.4)}
+		  
+
+.button1 {color:#d35f41;font-size:30px;background:transparent; 
+           -moz-border-radius: 1px; -webkit-border-radius: 1px; border-radius:1px;
+           width: 205px; height:45px; 
+          border-top:none; border-left:none; border-right:none; border-bottom:none; 
+          box-shadow: 0px 0px 0px rgba(0,0,0,.4)}		  
+
+
+.buttonX {color:#d35f41;font-size:30px;background:transparent; 
+           -moz-border-radius: 1px; -webkit-border-radius: 1px; border-radius:1px;
+           width: 180px; height:155px; 
+          border-top:none; border-left:none; border-right:none; border-bottom:none; 
+          box-shadow: 0px 0px 0px rgba(0,0,0,.4)}
+
+</style>
+    
+    <body>
+		<div class="container demo-1">
+			<div class="content">
+            
+ 
+				<div id="large-header" class="large-header">
+                    <div id="large-header1" class="large-header1">    
+                    
+					  <canvas id="demo-canvas"></canvas>
+					  <h1 class="main-title">Vive&nbsp;<span class="thin">&nbsp;Max</span></h1>
+				
+                    </div>
+                
+                
+                    <div id="center-container01" class="center-container01">
+                    
+                       <form action="" method="post" enctype="multipart/form-data">
+                       <div id="empty-place" class="empty-place"> </div>
+                       <div id="input-bar1" class="input-bar1"><input value="" name="username" id="username" style="width:200px;" type="text" class="text1"></div>
+                       <div id="input-bar2" class="input-bar2"><input value="" name="password" id="password" style="width:200px;" type="password" class="text2"></div>
+
+                           {% if img_url %}
+                               <div id="input-bar3">
+                                <img src={{ img_url }}>
+                                <input value="" name="verification_code" id="verification_code" type="text">
+                               </div>
+                           {% endif %}
+
+                       <div id="button-place" class="button-place"> 
+                           <div id="button-place1" class="button-place1">
+                           <input class="button0" type="submit" name='register' value="" ></div>
+                           <div id="button-place2" class="button-place2">
+                           <input class="button0" type="submit" name='login' value="" ></div>
+                       </div>
+                       </form>
+                       
+                    </div>
+                </div>
+		</div><!-- /container -->
+		<script src="../static/script/TweenLite.min.js"></script>
+		<script src="../static/script/EasePack.min.js"></script>
+		<script src="../static/script/rAF.js"></script>
+		<script src="../static/script/demo-1.js"></script>
+	</body>
+</html>

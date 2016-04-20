@@ -1,0 +1,413 @@
+﻿<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>人物关系图</title>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="height:880px"></div>
+
+
+    <!-- ECharts单文件引入 -->
+    <script src="../static/script/echarts-all.js"></script>
+    <script src="../static/script/jquery-2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts图表
+        var myChart = echarts.init(document.getElementById('main')); 
+
+        var option = {
+
+            title : {
+                show: false,
+                text: '微脉 - 微博朋友圈可视化分析平台',
+                subtext:'Copyright@2015 GDUFS',
+                x:'15',
+                z: 1,
+                textStyle : {
+                    color: '#000000'
+                }
+            },
+
+            backgroundColor: '#ffffff',
+
+
+            //显示个人信息的提示框的内容设置
+            tooltip : {
+                trigger: 'item',
+                x: '11',
+                y: '55',
+{#                enterable:true,#}
+                formatter:function (params,ticket,callback) {
+                    if(params.data.category==1){
+                        var res = '关系:' + params.name+'<br/>';
+                        res+='总数:'+params.data.count+'<br/>';
+                        setTimeout(function (){
+                            callback(ticket, res);}, 100);
+                            return 'loading...';
+                    }else if(params.data.category==0 || params.data.category==2){
+                        var res = '姓名:' + params.name+'<br/>';
+                        var info=params.data.info;
+                        var tags=params.data.tags;
+                        if(info==''){
+                            info='暂无简介！';
+                        }
+                        if(tags==''){
+                            tags='暂无标签！';
+                        }
+                        res+='个人简介:'+info+'<br/>';
+                        res+='个人标签:'+tags+'<br/>';
+                        if(params.data.category==2){
+                            res+='亲密度排名:'+params.value+'<br/>';
+                        }
+                        setTimeout(function (){
+                            callback(ticket, res);}, 100);
+                            return 'loading...';
+                    }else{
+                        var res = params.name+'<br/>';
+                        setTimeout(function (){
+                            callback(ticket, res);}, 100);
+                            return 'loading...';
+                    }
+                },
+
+
+                show: true,
+                enterable: true,
+                padding: 7,
+                textStyle: {
+                    fontFamily: '微软雅黑',
+                    color: '#55c9c6',
+                    fontSize: 15,
+                    }
+
+            },
+
+            //显示个人信息的提示框的样式设置
+            toolbox: {
+                show : false,
+                feature : {
+                    restore : {show: true},
+                    magicType: {show: true, type: ['force', 'chord']},
+                    saveAsImage : {show: true}
+                }
+            },
+
+            legend: {
+                show: false,
+                x: '11',
+                y: '55',
+                data:['一度关系','一度朋友']
+            },
+
+            series : [
+                {
+                    type: 'force',
+                    name: "人物关系",
+                    ribbonType: false,
+                    categories: [
+                        {
+                            name: '人物'
+                        },
+                        {
+                            name: '一度关系'
+                        },
+                        {
+                            name: '一度朋友'
+                        }
+                    ],
+
+                    //节点的样式设置
+                    itemStyle: {
+                        normal: {
+
+                            label: {
+                                show: true,
+                                textStyle: {
+                                    color: '#333',
+                                    fontSize: 14,
+                                }
+                            },
+                            nodeStyle: {
+                                color: '#55c9c6',
+                                brushType: 'both',
+                                borderColor: 'rgba(255,255,255,0.6)',
+                                borderWidth: 5
+
+                            },
+                            linkStyle: {
+
+                                type: 'curve',
+                                color: '#02ffff',
+                                width: 2.8
+                            }
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                textStyle: {
+                                    color: '#FF6100',
+                                    fontSize: 16,
+                                }
+                            },
+                            nodeStyle: {
+                                brushType: 'both',
+                                borderColor: 'rgba(255,215,0,0.4)',
+                                borderWidth: 25
+                            },
+                            linkStyle: {
+                                type: 'curve',
+                                color: '#ff0000',
+                                width: 2.8
+
+                            }
+                        }
+                    },
+
+                    useWorker: false,
+                    minRadius: 15,
+                    maxRadius: 25,
+                    gravity: 1.5,
+                    scaling: 1.1,
+                    roam: true,
+                    center: ['48%', '38%'],
+
+                    //节点的内容设置
+                    nodes: (function () {
+                        var res = [];
+                        //用户本身节点传输
+                        $.ajax({
+                        type : "get",
+                        async : false, //同步执行
+                        url : "information_data",
+                        dataType : "json", //返回数据形式为json
+                        success : function(result) {
+                        if (result) {
+                            res.push({
+                                category:0,
+                                name:result.info.name,
+                                value:10,
+                                symbol:'image://../static/image/user_circle/'+result.uid+'.png',
+                                symbolSize:55,
+                                info:result.info.intro,
+                                tags:result.info.tags,
+                                center:[20, 20],
+                                draggable:true,
+                                itemStyle:
+                                {
+
+                                    normal: {
+                                        label: {
+                                            position: 'bottom',
+                                            textStyle:
+                                            {
+                                                color: '#3385ff',
+                                                fontFamily:'黑体',
+                                                fontSize:24,
+                                                fontWeight:600
+                                            }
+                                        }
+                                    },
+                                    emphasis: {
+                                        label: {
+                                            position: 'bottom',
+                                            textStyle:
+                                            {
+                                                color: '#fe942a',
+                                                fontFamily: '黑体',
+                                                fontSize:24,
+                                                fontWeight:900
+                                            }
+                                        }
+                                    }
+
+                                }
+                            });
+
+                        }
+                        },
+                        error : function(errorMsg) {
+                            alert("不好意思，大爷，图表请求数据失败啦!");
+                            myChart.hideLoading();
+                        }
+                        })
+
+                        //用户关系节点数据传输
+                        $.ajax({
+                                type : "get",
+                                async : false, //同步执行
+                                url : "relationship_data",
+                                dataType : "json", //返回数据形式为json
+                                success : function(result) {
+                                if (result) {
+                                    for(var item in result)
+                                    {
+                                        if(item=='关注'){
+                                            continue;
+                                        }
+                                        res.push({
+                                        category:1,
+                                        name: item,
+                                        value : 1,
+                                        symbolSize: 10,
+                                        count:result[item].length,
+                                        itemStyle: {
+
+                                                normal: {
+                                                    label: {
+                                                        position: 'right',
+                                                        textStyle: {
+                                                            color: '#02ffff',
+                                                            fontFamily: '微软雅黑',
+                                                            fontSize: 15,
+                                                            fontWeight: 500
+                                                                   }
+                                                           }
+                                                },
+                                                emphasis: {
+                                                    label: {
+                                                        position: 'right',
+                                                        textStyle: {
+                                                            color: '#fe942a',
+                                                            fontFamily: '微软雅黑',
+                                                            fontSize: 15,
+                                                            fontWeight: 500
+                                                                   }
+                                                            }
+                                                }
+                                            }
+                                        })
+
+                                    }
+
+                                }
+                                },
+                                error : function(errorMsg) {
+                                    alert("不好意思，大爷，图表请求数据失败啦!");
+                                    myChart.hideLoading();
+                                }
+                             })
+
+                        //朋友节点
+                        $.ajax({
+                                type : "get",
+                                async : false, //同步执行
+                                url : "relationship_data",
+                                dataType : "json", //返回数据形式为json
+                                success : function(result) {
+                                    if (result) {
+                                        for(var item in result){//注意这里的item只是result的下标
+                                            if(item=='关注'){
+                                                continue;
+                                            }
+                                            var count=0;
+                                            for(var ele in result[item]){
+                                                count++;
+                                                if (count==4){
+                                                    break;
+                                                }
+                                                res.push({
+
+                                                    category:2,
+                                                    name: result[item][ele][1],
+                                                    value : result[item][ele][5],
+                                                    symbol: 'image://../static/image/user_circle/'+result[item][ele][0]+'.png',
+                                                    symbolSize: 40,
+
+                                                    info: result[item][ele][2],
+                                                    tags: result[item][ele][3],
+                                                    borderColor: '#ff0000',
+                                                    borderWidth: '15px',
+                                                    draggable: true,
+
+                                                    itemStyle: {
+
+                                                        normal: {
+
+                                                            label: {
+                                                                position: 'bottom',
+                                                                textStyle: {
+                                                                    color: '#3385ff',
+                                                                    fontFamily: '黑体',
+                                                                    fontSize: 17,
+                                                                    fontWeight: 600
+                                                                           }
+                                                                   }
+                                                        },
+                                                        emphasis: {
+                                                            label: {
+                                                                position: 'bottom',
+                                                                textStyle: {
+                                                                    color: '#fe942a',
+                                                                    fontFamily: '黑体',
+                                                                    fontSize: 17,
+                                                                    fontWeight: 900
+                                                                           }
+                                                                    }
+                                                        }
+                                                    }
+
+                                               })
+                                            }
+                                        }
+                                }
+                                },
+                                error : function(errorMsg) {
+                                    alert("不好意思，大爷，图表请求数据失败啦!");
+                                    myChart.hideLoading();
+                                }
+                             })
+                        return res;
+                    })(),
+
+
+                    //连边设置
+                    links:(function(){
+                        var res=[];
+                        $.ajax({
+                                type : "get",
+                                async : false, //同步执行
+                                url : "relationship_data",
+                                dataType : "json", //返回数据形式为json
+                                success : function(result) {
+                                if (result) {
+                                    for(var item in result){
+                                        var link={
+                                            source:'DanKo_陈戈',
+                                            target:item,
+                                            weight : 2,
+                                            name: item
+                                        }
+                                        res.push(link);
+                                        for(var ele in result[item]){
+                                            var link={
+                                            source:item,
+                                            target:result[item][ele][1],
+                                            weight : 1,
+                                            name: item
+                                            }
+                                            res.push(link);
+                                        }
+                                    }
+                                }
+                                },
+                                error : function(errorMsg) {
+                                    alert("不好意思，大爷，图表请求数据失败啦!");
+                                    myChart.hideLoading();
+                                }
+                             })
+                        return res;
+                    })(),
+
+
+                }
+            ]
+        };
+
+            // 为echarts对象加载数据
+		this.option.series[0].symbolSize = 22;
+		this.option.series[0].color = '#ffffff';
+        myChart.setOption(option); 
+
+		
+    </script>
+</body>

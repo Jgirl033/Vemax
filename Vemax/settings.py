@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ViveMax.wsgi.application'
+WSGI_APPLICATION = 'Vemax.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Vemax',
         'USER': 'root',
-        'PASSWORD': 'xie5321927',
+        'PASSWORD': 'ViveMax2016',
     }
 }
 

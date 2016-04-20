@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>主页</title>
+	<link rel="stylesheet" type="text/css" href="../static/css/home.css">
+</head>
+<body>
+<div id="relativeContainer">
+	<div id="container">
+		<header>
+			<a href="#"><div class="logo"></div></a>
+			<p class="username"><span><a href="#">{{ name }}</a></span>&nbsp;&nbsp;的微脉圈</p>
+		</header>
+
+
+
+		<div id="chart">
+            <iframe src={{ html }} width="960px" height="700px" scrolling="no" frameborder="0"></iframe>
+        </div>
+
+{#        <div id="container02">#}
+{#                <div id="container02-1">#}
+{#                    <iframe src="../static/plugins/share.html" width="100%" height="150px" scrolling="no" frameborder="0"> </iframe>#}
+{#                </div>#}
+{#        </div>#}
+        
+        
+		<article id="sidebar">
+			<div class="search">
+                <form action="homepage?page=search" method="post" enctype="multipart/form-data" name="form_search">
+				<div id="input-barX">
+                     <div id="input-bar1"><input value="" name="search_input" id="search_input" type="text" class="input_text" placeholder="搜索，你所需"></div>
+                     <div id="input-bar2"><input class="button0" type="submit" value="" onclick="check()"></div>
+                </div>
+                </form>
+				<ul>
+					<li><span></span><a href="homepage?page=search&content={{ dict_class_tags.1 }}">{{ dict_class_tags.1 }}</a></li>
+					<li><span></span><a href="homepage?page=search&content={{ dict_class_tags.2 }}">{{ dict_class_tags.2 }}</a></li>
+					<li><span></span><a href="homepage?page=search&content={{ dict_class_tags.3 }}"href="#">{{ dict_class_tags.3 }}</a></li>
+				</ul>
+
+			</div>
+			<div class="interest">
+				<p>您可能会感兴趣</p><span></span>
+                <dl><dt><span></span>{{ recommend.username }}</dt></dl>
+                 <div id="interest-container01">
+                    {{ recommend.content }}
+                </div>
+			</div>
+		</article>
+	</div>
+     <div id="container02">
+        <div id="container02-1">
+            <iframe src="../static/plugins/share.html" width="100%" height="150px" scrolling="no" frameborder="0"> </iframe>
+        </div>
+     </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+function check() {
+    var search_content = document.form_search.search_input.value;
+    if (search_content =="") {
+        alert("搜索内容为空！")
+    }
+}
+</script>

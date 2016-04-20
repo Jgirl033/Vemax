@@ -1,0 +1,378 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <title>个人主页</title>
+
+ </head>
+
+
+<style>
+
+html, body{
+	width: 940px;
+	height: 600px;
+	background-color: rgba(0,0,0,0);
+	background-size: 940px 600px ;
+	zoom:92%;
+}
+
+#Header{
+	position:relative;
+	z-index: 5;
+	height:90px;
+}
+
+#container #chart-leftTop{
+	height:200px;
+	background: url(../static/image/information/01.png) no-repeat;
+	padding-left: 40px;
+}
+
+#container #chart-left{
+	
+	height:160px;
+	background: url(../static/image/information/02.png) no-repeat;
+	padding-left: 40px;
+}
+
+#container #chart-leftBottom{
+	
+	height:240px;
+	background: url(../static/image/information/03.png) no-repeat;
+	padding-left: 40px;
+}
+
+#container #chart-center{
+	
+	width:100%;
+	height:100%;
+	
+	padding-top: 63px;
+	padding-left: 63px;
+	
+}
+
+#container #chart-rightTop{
+	
+	height:200px;
+	background: url(../static/image/information/04.png) no-repeat;
+	padding-left: 120px;
+}
+
+#container #chart-right{
+	
+	height:160px;
+	background: url(../static/image/information/05.png) no-repeat;
+	padding-left: 120px;
+}
+
+#container #chart-rightBottom{
+		
+	height:240px;
+	background: url(../static/image/information/06.png) no-repeat;
+	padding-left: 120px;
+}
+
+
+#container #Left{
+	position:relative;
+	z-index: 1;
+	
+	width:400px;
+	height:100%;
+	
+	//background:#f00;
+}
+
+#container #Center{
+	position:relative;
+	z-index: 3;
+	margin-top: -420px;
+	margin-left: 350px;
+	
+	width:250px;
+	height:250px;
+
+	background: url(../static/image/information/07.png) no-repeat;
+}
+
+#container #Right{
+	position:relative;
+	z-index: 2;
+	margin-top: -430px;
+	margin-left: 550px;
+	
+	width:370px;
+	height:100%;
+	
+	//background:#f00;
+}
+
+
+
+#container #BottomLayer{
+	position:relative;
+	z-index: 1;
+	//background:#f00;
+	
+	width: 940px;
+	height: 600px;
+}
+
+
+#container #CircleLayer{
+	position:relative;
+	z-index: 5;
+	margin-top: -600px;
+	//background:#0f0;
+	
+	
+	width: 940px;
+	height: 600px;
+	
+}
+
+
+
+
+
+#iii02-2-1 {
+	
+    height: 100px;
+	//background-color: #f00;
+}
+
+#iii03-2-2 {
+	
+    height: 25px;
+	//background-color: #0f0;
+}
+
+#iii03-2-3 {
+	
+    height: 25px;
+	//background-color: #00f;
+}
+
+
+
+
+
+#iii02-2-2 {
+	
+    height: 120px;
+	//background-color: #f00;
+}
+
+#iii02-2-3 {
+	
+    height: 140px;
+	//background-color: #f00;
+}
+
+
+
+p span{
+display: block;
+width:260px;/*对宽度的定义,根据情况修改*/
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+
+font-size: 20px;
+color: #06d4d4;
+
+}/* FF 下的样式 */
+p{clear:both;}
+p:after{
+content:"";
+}
+
+
+
+
+
+
+</style>
+
+
+ <body>
+
+<div id="container" style="width:940px;height:600px;position:relative;margin:0 auto">
+
+
+   <div id="BottomLayer">
+   
+            <div id="Left">
+            
+              <div id="chart-leftTop">
+                <div id="iii02-2-1"></div>
+                <div id="iii03-2-2"><p><span>{{ name }}</span></p></div>
+                <div id="iii03-2-3"><p><span></span></p></div>
+              </div>
+              
+              <div id="chart-left">
+                <div id="iii02-2-1"></div>
+                <div id="iii03-2-2"><p><span>{{ intro }}</span></p></div>
+              </div>
+              
+              <div id="chart-leftBottom">
+                <div id="iii02-2-2"></div>
+                <div id="iii03-2-2"><p><span>{{ profile }}</span></p></div>
+              </div>
+              
+            </div>
+            
+            
+            <div id="Center">
+              <div id="chart-center">
+              <img src="../static/image/user_circle/{{ uid }}.png" width="112" height="112">
+              </div>
+            </div>
+            
+            
+            <div id="Right">
+              <div id="chart-rightTop">
+                <div id="iii02-2-1"></div>
+                <div id="iii03-2-2"><p><span>{{ tags }}</span></p></div>
+              </div>
+              
+              <div id="chart-right">
+                <div id="iii02-2-1"></div>
+                <div id="iii03-2-2"><p><span>...</span></p></div>
+              </div>
+              
+              <div id="chart-rightBottom">
+                <div id="iii02-2-2"></div>
+                <div id="iii03-2-2"><p><span>{{ bigV }}</span></p></div>
+{#                <div id="iii03-2-3"><p><span>关于开展2014年度ssssssssssssssYYYYYYYY...</span></p></div>#}
+              </div>
+              
+            </div>
+            
+    </div>            
+
+    
+    <div id="CircleLayer">
+    
+            <div id="Header"></div>
+            <div id="demo" align="center"> 
+              <img src="../static/image/information/user_border.png" width="460" height="414" />
+            </div>
+    
+    </div>
+    
+    
+
+</div>
+
+<script>
+
+var Img = function() {
+
+    var T$ = function(id) { return document.getElementById(id); }
+
+    var ua = navigator.userAgent,
+
+        isIE = /msie/i.test(ua) && !window.opera;
+
+    var i = 0, sinDeg = 0, cosDeg = 0, timer = null ;
+
+    var rotate = function(target, degree) {
+        target = T$(target);
+
+        var orginW = target.clientWidth, orginH = target.clientHeight;
+
+            clearInterval(timer);
+
+        function run(angle) {
+
+            if (isIE) { // IE
+
+                cosDeg = Math.cos(angle * Math.PI / 180);
+
+                sinDeg = Math.sin(angle * Math.PI / 180);
+
+                with(target.filters.item(0)) {
+
+                    M11 = M22 = cosDeg; M12 = -(M21 = sinDeg);
+
+                }
+
+                target.style.top = (orginH - target.offsetHeight) / 2 + 'px';
+
+                target.style.left = (orginW - target.offsetWidth) / 2 + 'px';
+
+            } else if (target.style.MozTransform !== undefined) {  // Mozilla
+
+                target.style.MozTransform = 'rotate(' + angle + 'deg)';
+
+            } else if (target.style.OTransform !== undefined) {   // Opera
+
+                target.style.OTransform = 'rotate(' + angle + 'deg)';
+
+            } else if (target.style.webkitTransform !== undefined) { // Chrome Safari
+
+                target.style.webkitTransform = 'rotate(' + angle + 'deg)';
+
+            } else {
+
+                target.style.transform = "rotate(" + angle + "deg)";
+
+            }
+
+        }
+
+         
+
+        timer = setInterval(function() {
+
+            i += 1;
+
+            run(i);
+
+            if (i > degree - 1) {
+
+                i = 0;
+
+                clearInterval(timer);
+
+            }
+
+        }, 62);
+
+    }
+
+    return {rotate: rotate}
+
+}();
+
+
+function display() {
+
+    Img.rotate('demo', 360);
+
+    setTimeout("display()",500)
+
+}
+
+window.onload = display(); 
+
+
+</script>
+
+
+<script type="text/javascript">
+display();
+</script>
+
+
+ 
+ </body>
+</html>
+
+
+
+
+

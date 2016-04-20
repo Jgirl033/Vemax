@@ -1,0 +1,81 @@
+<!DOCTYPE html><head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+
+<link rel="stylesheet" type="text/css" href="../static/css/search.css">
+<script src="../static/script/jquery-2.1.4/jquery.min.js"></script>
+
+<body>
+
+     <div id="container01">
+
+         {% if list_user.1 %}
+         <div id="container01-1">
+            <div id="container01-1-left">
+            <div id="container01-1-left-top-banner"></div>
+            <div id="container01-1-left-top-pic">
+            <img src="../static/image/user_circle/{{ list_user.1.uid }}.png" width="115" height="116" />
+            </div>
+            </div>
+            <div id="container01-1-right">
+                <div id="container01-1-right-top">{{ list_user.1.username }}</div>
+                <div class="container01-1-right-bottom"><p>&nbsp;{{ list_user.1.source }}:{{ list_user.1.content }}</p></div>
+            </div>
+         </div>
+         {% endif %}
+         <div id="container01-empty1"></div>
+
+        {% if list_user.2 %}
+         <div id="container01-1">
+            <div id="container01-1-left">
+            <div id="container01-1-left-top-banner"></div>
+            <div id="container01-1-left-top-pic">
+            <img src="../static/image/user_circle/{{ list_user.2.uid }}.png" width="115" height="116" />
+            </div>
+            </div>
+            <div id="container01-1-right">
+                <div id="container01-1-right-top">{{ list_user.2.username }}</div>
+                <div class="container01-1-right-bottom"><p>&nbsp;{{ list_user.2.source }}:{{ list_user.2.content }}</p></div>
+            </div>
+         </div>
+         {% endif %}
+         <div id="container01-empty2"></div>
+
+         {% if list_user.3 %}
+         <div id="container01-1">
+            <div id="container01-1-left">
+            <div id="container01-1-left-top-banner"></div>
+            <div id="container01-1-left-top-pic">
+            <img src="../static/image/user_circle/{{ list_user.3.uid }}.png" width="115" height="116" />
+            </div>
+            </div>
+            <div id="container01-1-right">
+                <div id="container01-1-right-top">{{ list_user.3.username }}</div>
+                <div class="container01-1-right-bottom"><p>&nbsp;{{ list_user.3.source }}:{{ list_user.3.content }}</p></div>
+            </div>
+         </div>
+         {% endif %}
+
+
+     </div>
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+//限制字符个数
+$(".container01-1-right-bottom").each(function(){
+    var max_width=55;
+        if($(this).text().length>max_width){
+            $(this).text($(this).text().substring(0,max_width));
+            $(this).html($(this).html()+'…');
+        }
+        });
+    });
+</script>
+
+
+
+</body>

@@ -1,0 +1,522 @@
+﻿<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>人物分类图</title>
+    <!--从当前页面，引入模块加载器esl.js-->
+    <script src="../static/script/echarts/esl.js"></script>
+    <script src="../static/script/echarts/jquery-1.11.2.min.js"></script>
+    <style>
+        *{ margin: 0; padding: 0}
+
+        body{ background:none}
+        #main{height:700px; width: 1000px ; background:none; margin:10px auto;}
+        #btn{ border: 1px solid #FFF; border-radius: 5px; width: 100px; height: 20px;text-align: center;line-height: 20px; color: #FFF; background:none; margin:0 auto; visibility:hidden}
+        #btn:hover{ color: #000; background:none;}
+        #btn:active{font-weight: bolder;}
+    </style>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main"></div>
+    <script type="text/javascript">
+        require.config({
+            packages: [
+                {
+                    name: 'echarts',
+                    location: '../static/script/echarts/src',
+                    main: 'echarts'
+                },
+                {
+                    name: 'zrender',
+                    location: '../static/script/echarts/zrender/src',
+                    main: 'zrender'
+                }
+            ]
+        });
+
+
+        var option = {
+
+            /*默认背景*/
+            backgroundColor: 'rgba(0,0,0,0)',
+
+            /*默认色板*/
+            color: ['#ff7f50', '#87cefa', '#da70d6', '#32cd32', '#6495ed',
+                '#ff69b4', '#ba55d3', '#cd5c5c', '#ffa500', '#40e0d0',
+                '#1e90ff', '#ff6347', '#7b68ee', '#00fa9a', '#ffd700',
+                '#6699FF', '#ff6666', '#3cb371', '#b8860b', '#30e0e0'],
+
+            /*图表标题*/
+            title: {
+                x: 'center',                 // 水平安放位置，默认为左对齐，可选为：
+                text: '微脉圈 - 兴趣分类图谱',
+                textStyle : {
+                    color: '#fff'
+                }
+            },
+
+
+            toolbox: {
+                show :false,
+                feature : {
+                    restore : {show: true},
+                    magicType: {show: true, type: ['force', 'chord']},
+                    saveAsImage : {show: true}
+                }
+            },
+
+            /*图层切换按钮设置*/
+             legend: {
+                orient: 'vertical',
+                x:'left',
+
+                data:['图层切换'],
+                selected:{
+                  '图层切换':true,/*true就是变色*/
+                  '图层2':false,
+                  '炫光层2':false
+                },
+                borderColor: '#02FFFF',
+
+                borderWidth: 4,
+
+                padding: 10,    // [5, 10, 15, 20]
+
+                itemGap: 20,
+
+                textStyle: {
+                    color: '#02FFFF'
+                }
+       },
+            series : [
+                {
+                    name: '点线层',
+                    type: 'map',
+                    roam: false,
+                    hoverable: false,
+                    mapType: 'china',
+                    mapLocation: {
+                           x: '5',
+                           y: '5'
+                    },
+                    itemStyle:{
+                        normal:{
+                            color:'rgba(0,0,0,0)'
+                        }
+                    },
+                    data:[],
+                    z:0,
+                    markLine : {
+                        smooth:true,/*使连线变弯*/
+                        symbol: [ 'none','circle'],
+                        symbolSize :0, /*线条终点没有标注*/
+                        itemStyle : {
+                            normal: {
+                                lineStyle: {
+                                    type:'line',
+                                    color:' #20FFFF'
+                                },
+                                borderWidth:3/*设置线条宽度*/
+                            }
+                        },
+                        data:[]/*没写不会显示，相当于没有最原始的结构*/
+                    },
+                    geoCoord: {
+                        /*分类位置分布*/
+                        '{{ uid }}': [110,35],
+                        '健康养生': [123.4648,33.2891],
+                        '军事历史':  [122.5107,23.2196],
+                        '时政': [122.2229,39.4409],
+                        '公益':[102.9199,25.4663],
+                        '读书':  [90.0046,35.6633],
+                        '电视剧': [110.7539,50.1904],
+                        'IT互联网': [125.8154,44.2584],
+                        '教育':  [100.3467,46.4899],
+                        '艺术': [110.7539,21.1904],
+                        '电影':[129.4543,36.5582],
+                        '动漫': [87.9236,43.5883],
+                        '游戏':[91.1865,30.1465],
+
+
+                        '旅游':[102.9199,25.4663],
+                        '美食': [108.479,48.1152],
+                        '摄影':[95,35],
+                        '萌宠': [109.479,21.1152],
+                        '服装美容':[88,45],
+                        '体育': [123.1865,33.1465],
+                        '设计':[121.1353,28.6688],
+                        '综艺':[101.4038,45.8207],
+                        '星座': [91.1865,30.1465],
+                        '音乐':[117.169162,23.3405],
+                        '健身':[130.9236,38.5883],
+                        '财经': [120.0046,45.6633]
+                    }
+                },
+
+                {
+                    name: '炫光层1',
+                    type: 'map',
+                    mapType: 'china',
+                    data: [],
+                    z: 1,
+                    markLine: {
+                        smooth: true, /*使连线变弯*/
+                        symbolSize :0, /*线条终点没有标注*/
+                        effect: {
+                            show: true,
+                            scaleSize: 1,
+                            period: 30,
+                            color: '#02FFFF',
+                            shadowBlur: 10
+                        },
+                        itemStyle: {
+                            normal: {
+                                borderWidth: 1,
+                                borderColor: '#02FFFF',
+                                lineStyle: {
+                                    color: '#02FFFF',
+                                    type: 'solid',
+                                    shadowBlur: 0,
+                                    width: 2.2
+                                }
+                            }
+                        },
+                        data:(function(){
+                            var res=[];
+                            $.ajax({
+                                type : "get",
+                                async : false, //同步执行
+                                url : "classify_data",
+                                dataType : "json", //返回数据形式为json
+                                success : function(result) {
+                                if (result) {
+                                    for(var item in result['class']){
+                                        if(result['class'][item][0]>12){
+                                            continue;
+                                        }
+                                        var res_item=[{name:{{ uid }}}];
+                                        res_item.push({
+                                            name:item
+                                        });
+                                        res.push(res_item);
+                                    }
+                                    }
+                                },
+                                error : function(errorMsg) {
+                                    alert("不好意思，大爷，图表请求数据失败啦!");
+                                    myChart.hideLoading();
+                                }
+                                });
+                            return res;
+
+                       })()
+                    },
+                    markPoint: {
+                        symbol: 'emptyCircle', /*设置终点为圆圈*/
+                        symbolSize: function (v) {
+                            return 10 + v / 10
+                        },
+                        effect: {
+                            show: true,
+                            color:'#02FFFF',
+                            shadowBlur: 5
+                        },
+                        itemStyle: {
+                            normal: {
+                                label: {show: false}
+                            },
+                            emphasis: {
+                                label: {position: 'top'}
+                            }
+                        },
+                        data:(function(){
+                            var res=[{name:{{ uid }}, symbolSize: 34}];
+                            $.ajax({
+                                type : "get",
+                                async : false, //同步执行
+                                url : "classify_data",
+                                dataType : "json", //返回数据形式为json
+                                success : function(result) {
+                                if (result) {
+                                    for(var item in result['class']){
+                                        if(result['class'][item][0]>12){
+                                            continue;
+                                        }
+                                        res.push({
+                                            name:item,
+                                            symbolSize: 25
+                                        });
+                                    }
+                                    }
+                                },
+                                error : function(errorMsg) {
+                                    alert("不好意思，大爷，图表请求数据失败啦!");
+                                    myChart.hideLoading();
+                                }
+                                });
+                            return res;
+
+                        })()
+                    }
+
+                },
+                {
+                    name: '炫光层2',
+                    type: 'map',
+                    mapType: 'china',
+                    data: [],
+                    z: 2,
+                    markLine: {
+                        smooth: true, /*使连线变弯*/
+                        symbolSize :0, /*线条终点没有标注*/
+                        effect: {
+                            show: true,
+                            scaleSize: 1,
+                            period: 30,
+                            color: '#02FFFF',
+                            shadowBlur: 10
+                        },
+                        itemStyle: {
+                            normal: {
+                                borderWidth: 1,
+                                borderColor: '#02FFFF',
+                                lineStyle: {
+                                    color: '#02FFFF',
+                                    type: 'solid',
+                                    shadowBlur: 0,
+                                    width: 2.2
+                                }
+                            }
+                        },
+                        data:(function(){
+                            var res=[];
+                            $.ajax({
+                                type : "get",
+                                async : false, //同步执行
+                                url : "classify_data",
+                                dataType : "json", //返回数据形式为json
+                                success : function(result) {
+                                if (result) {
+                                    for(var item in result['class']){
+                                        if(result['class'][item][0]<=12){
+                                            continue;
+                                        }
+                                        var res_item=[{name:{{ uid }}}];
+                                        res_item.push({
+                                            name:item
+                                        });
+                                        res.push(res_item);
+                                    }
+                                    }
+                                },
+                                error : function(errorMsg) {
+                                    alert("不好意思，大爷，图表请求数据失败啦!");
+                                    myChart.hideLoading();
+                                }
+                                });
+                            return res;
+
+                       })()
+                    },
+                    markPoint: {
+                        symbol: 'emptyCircle', /*设置终点为圆圈*/
+                        symbolSize: function (v) {
+                            return 10 + v / 10
+                        },
+                        effect: {
+                            show: true,
+                            color:'#02FFFF',
+                            shadowBlur: 5
+                        },
+                        itemStyle: {
+                            normal: {
+                                label: {show: false}
+                            },
+                            emphasis: {
+                                label: {position: 'top'}
+                            }
+                        },
+                         data:(function(){
+                            var res=[{name:{{ uid }}, symbolSize: 34}];
+                            $.ajax({
+                                type : "get",
+                                async : false, //同步执行
+                                url : "classify_data",
+                                dataType : "json", //返回数据形式为json
+                                success : function(result) {
+                                if (result) {
+                                    for(var item in result['class']){
+                                        if(result['class'][item][0]<=12){
+                                            continue;
+                                        }
+                                        res.push({
+                                            name:item,
+                                            symbolSize: 25
+                                        });
+                                    }
+                                    }
+                                },
+                                error : function(errorMsg) {
+                                    alert("不好意思，大爷，图表请求数据失败啦!");
+                                    myChart.hideLoading();
+                                }
+                                });
+                            return res;
+
+                        })()
+                    }
+
+                },
+                {
+                    name: '图层1',
+                    type: 'map',
+                    mapType: 'china',
+                    data : [],
+                    z:3,
+                    markPoint : {
+                        data:(function(){
+                            var res=[];
+                            var user_img_url='image://';
+                            user_img_url+='../static/image/user_circle/'+'{{ uid }}'+'.png';
+                            res.push({
+                                name:{{ uid }},
+                                symbol:user_img_url,
+                                symbolSize:35
+                            });
+                            $.ajax({
+                                type : "get",
+                                async : false, //同步执行
+                                url : "classify_data",
+                                dataType : "json", //返回数据形式为json
+                                success : function(result) {
+                                if (result) {
+                                    for(var item in result['class']){
+                                        if(result['class'][item][0]>12){
+                                            continue;
+                                        }
+                                        var img_url='image://';
+                                        img_url+=result['class'][item][1];
+                                        res.push({
+                                            name:item,
+                                            symbol:img_url,
+                                            symbolSize:40
+                                        });
+                                    }
+                                    }
+                                },
+                                error : function(errorMsg) {
+                                    alert("不好意思，大爷，图表请求数据失败啦!");
+                                    myChart.hideLoading();
+                                }
+                                });
+                            return res;
+
+                       })()
+                    }
+                },
+                {
+                    name: '图层2',
+                    type: 'map',
+                    mapType: 'china',
+                    data : [],
+                    z:4,
+                    markPoint : {
+                         data:(function(){
+                            var res=[];
+                            var user_img_url='image://';
+                            user_img_url+='../static/image/user_circle/'+'{{ uid }}'+'.png';
+                            res.push({
+                                name:{{ uid }},
+                                symbol:user_img_url,
+                                symbolSize:35
+                            });
+                            $.ajax({
+                                type : "get",
+                                async : false, //同步执行
+                                url : "classify_data",
+                                dataType : "json", //返回数据形式为json
+                                success : function(result) {
+                                if (result) {
+                                    for(var item in result['class']){
+                                        if(result['class'][item][0]<=12){
+                                            continue;
+                                        }
+                                        var img_url='image://';
+                                        img_url+=result['class'][item][1];
+                                        res.push({
+                                            name:item,
+                                            symbol:img_url,
+                                            symbolSize:40
+                                        });
+                                    }
+                                    }
+                                },
+                                error : function(errorMsg) {
+                                    alert("不好意思，大爷，图表请求数据失败啦!");
+                                    myChart.hideLoading();
+                                }
+                                });
+                            return res;
+                        })()
+                    }
+                }
+
+    ]
+};
+        require(
+            [
+                'echarts',
+                'echarts/chart/line',
+                'echarts/chart/bar',
+                'echarts/chart/map',
+                'zrender'
+            ],
+            function (ec) {
+
+                var myChart = ec.init(document.getElementById('main'));
+                myChart.setOption(option);
+
+                /*echarts事件相关的包*/
+                var ecConfig = require('echarts/config');
+                var zrEvent = require('zrender/tool/event');
+
+                /*监听点击事件*/
+                myChart.on(ecConfig.EVENT.CLICK,function(param){
+                    if(param.name=='{{ uid }}'){
+                        window.open('../homepage?page=information','_blank');
+                    }
+                    else{
+                        if('{{ friends_classify }}'.indexOf(param.name)>0){
+                            window.location.href="../classify_detail?page="+param.name;
+                        }
+                        else {
+                           alert('暂无此类别好友！');
+                        }
+
+                    }
+                });
+
+                /*监听图层切换事件*/
+                myChart.on(ecConfig.EVENT.LEGEND_SELECTED, function(param){
+
+                    var selected = param.selected;
+
+                    if (selected['图层切换']) {
+                        selected['图层1']=true;//最开始,默认页面
+                        selected['图层2']=false;
+                        selected['炫光层1']=true;
+                        selected['炫光层2']=false;
+                    }
+                    else{
+                        selected['图层2']=true;
+                        selected['图层1']=false;
+                        selected['炫光层2']=true;
+                        selected['炫光层1']=false;
+                   }
+                    myChart.setOption(option);//使修改生效！！！
+                });
+
+            }
+        );
+    </script>
+</body>

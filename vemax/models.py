@@ -38,7 +38,7 @@ class Information(models.Model):
 
 class Friend(models.Model):
     uid = models.OneToOneField(Users)
-    list_friend = models.CharField(max_length=5000, null=True)
+    list_friend = models.CharField(max_length=5000,default='')
 
     def __unicode__(self):
         return self.uid.uid
