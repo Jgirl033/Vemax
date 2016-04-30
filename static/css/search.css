@@ -35,8 +35,8 @@
 #container01-1-right-top {
     width: 638px;
     height: 40px;
-	margin-top: 30px;
-	margin-left: 22px;
+    margin-top: 20px;
+	margin-left: 5px;
 	font-size: 1.38em;
 	font-family: "新宋体";
 	color:#02ffff;letter-spacing: 0.3px;
@@ -44,7 +44,7 @@
 .container01-1-right-bottom {
     width: 585px;
     height: 68px;
-	margin-top: 2px;
+	margin-top: 20px;
 	margin-left: 5px;
 	font-size: 18.2px;
 	color:#02ffff;
