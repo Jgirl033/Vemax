@@ -3,13 +3,13 @@ import json
 
 import re
 import simplejson
-from django.contrib.auth import authenticate, login as user_login
+from django.contrib.auth import authenticate, login as user_login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from index.reserve_index import ReserveIndex
 from init.server_local import start_recommend
-from search.BM25 import BM25Model
+from search.BM25 import Search
 from vemax import BLL
 from vemax.models import Information, UserRelationship, Users, Classify, Profiles, Friend
 from django import forms
@@ -97,6 +97,12 @@ def login_view(request):
         return render_to_response("login.html", {"img_url": l.img})
 
 
+def logout_view(request):
+    logout(request)
+    # l.get_args()
+    return render_to_response("login.html", {"img_url": l.img})
+
+
 def homepage_view(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect('login')  # 用户未登录，则重定向
@@ -141,7 +147,7 @@ def homepage_view(request):
 
     return render_to_response("homepage.html",
                               {'name': information.username, 'intro': information.intro, 'html': page,
-                               'recommend': rec, 'dict_class_tags':dict_class_tags})
+                               'recommend': rec, 'dict_class_tags': dict_class_tags})
 
 
 def information_view(request):
@@ -156,14 +162,24 @@ def information_view(request):
         db_user = Users.objects.get(uid=information.uid.uid)
     uid = db_user.uid
     profile = Profiles.objects.filter(uid=uid).order_by('cid')[0]
+
     list_bigV = UserRelationship.objects.filter(user_uid=uid, relationship='v')
     str_bigV = ''
     for item in list_bigV:
         friend_info = Information.objects.get(uid=item.friend_uid)
-        str_bigV += friend_info.username + '\n'
+        str_bigV += friend_info.username + ','
+
+    db_user_self = Users.objects.get(username=request.user.username)
+    list_relation_classify = UserRelationship.objects.filter(user_uid=db_user_self.uid, friend_uid=uid)
+    if list_relation_classify.count() == 0:
+        relation_classify = '本人'
+    else:
+        relation_classify = list_relation_classify[0].relationship
+
     return render_to_response("information.html",
                               {'name': information.username, 'intro': information.intro, 'profile': profile.content,
-                               'tags': information.tags, 'bigV': str_bigV, 'uid': uid})
+                               'tags': information.tags, 'bigV': str_bigV, 'uid': uid,
+                               'class_tags': information.class_tags, 'relation_classify': relation_classify})
 
 
 def information_data(request):
@@ -275,7 +291,7 @@ def search_view(request):
                     list_user.append(str(item.friend_uid).replace('.txt', ''))
                     list_document.append(li[i])
         obj_index_user = ReserveIndex(list_document)
-        bm = BM25Model(obj_index_user, search_text)
+        bm = Search(obj_index_user, search_text)
         sorted_x = bm.rank_doc()
         list_user_all = []
 
